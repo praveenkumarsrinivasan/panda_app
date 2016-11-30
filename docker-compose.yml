@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+  web:
+    build: ./web
+    image: praveenkumarsrinivasan/panda_app_web
+    ports: 
+      - 89:80
+
+  ws:
+    build: ./ws
+    image: praveenkumarsrinivasan/panda_app_ws
+    ports: 
+      - 5000
+
+  lb:
+    image: 'dockercloud/haproxy:latest'
+    links:
+      - ws
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 85:80
+
+  
